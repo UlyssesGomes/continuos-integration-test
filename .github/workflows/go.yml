@@ -30,12 +30,11 @@ jobs:
         version: v1.59
         args: controllers/ database/ models/ routes/
 
-    - name: Wait Database
-      run: |
-        until docker exec $(docker compose ps -q postgres) pg_isready -U ${{ secrets.DB_USER }}; do
-          echo "Waiting for database to be ready..."
-          sleep 2
-        done
-
     - name: Test
-      run: DB_HOST=${{ secrets.DB_HOST }} DB_PASSWORD=${{ secrets.DB_PASSWORD }} DB_USER=${{ secrets.DB_USER }} DB_NAME=${{ secrets.DB_NAME }} DB_PORT=${{ secrets.DB_PORT }} go test -v main_test.go
+      run: go test -v main_test.go
+      env:
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+        DB_PORT: ${{ secrets.DB_PORT }}
