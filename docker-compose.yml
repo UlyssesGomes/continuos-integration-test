@@ -7,7 +7,7 @@ services:
       - POSTGRES_DB=root
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
-    options: >-
+    options:
       --health-cmd pg_isready
       --health-interval 10s
       --health-timeout 5s
