@@ -32,8 +32,8 @@ jobs:
 
     - name: Wait Database
       run: |
-        until pg_isready -h localhost -p 5432 -U ${{ secrets.DB_USER }}; do
-          echo "Waiting database..."
+        until docker exec $(docker compose ps -q postgres) pg_isready -U ${{ secrets.DB_USER }}; do
+          echo "Waiting for database to be ready..."
           sleep 2
         done
 
